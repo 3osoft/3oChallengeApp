@@ -22,7 +22,7 @@ namespace _3oChallenge
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // use this connection string only for direct connetion to Postgre Container (can be used for db migrations)
-            var connectionString = "host=localhost;port=5432;database=3ochallenge;username=admin;password=admin";
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(connectionString));
 
         }
