@@ -21,8 +21,10 @@ namespace _3oChallenge
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            // use this connection string only for direct connetion to Postgre Container (can be used for db migrations)
+            var connectionString = "host=localhost;port=5432;database=3ochallenge;username=admin;password=admin";
             services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(connectionString));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

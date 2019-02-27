@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>18b7fb4f-bb4c-4552-bfd8-a04e09b05d67</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/values</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/challenges</DockerServiceUrl>
     <DockerServiceName>3ochallengeapp</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
