@@ -42,21 +42,21 @@ namespace _3oChallengeApp.Migrations
                     IsEnabled = table.Column<bool>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    UserModelId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Challenges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Challenges_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Challenges_Users_UserModelId",
+                        column: x => x.UserModelId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChallengeUser",
+                name: "ChallengeUserModel",
                 columns: table => new
                 {
                     ChallengeId = table.Column<int>(nullable: false),
@@ -64,15 +64,15 @@ namespace _3oChallengeApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChallengeUser", x => new { x.ChallengeId, x.UserId });
+                    table.PrimaryKey("PK_ChallengeUserModel", x => new { x.ChallengeId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_ChallengeUser_Challenges_ChallengeId",
+                        name: "FK_ChallengeUserModel_Challenges_ChallengeId",
                         column: x => x.ChallengeId,
                         principalTable: "Challenges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChallengeUser_Users_UserId",
+                        name: "FK_ChallengeUserModel_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -131,14 +131,14 @@ namespace _3oChallengeApp.Migrations
                     Value = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    InputChallengeId = table.Column<int>(nullable: true)
+                    InputChallengeModelId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InputChallengeAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InputChallengeAnswers_InputChallenges_InputChallengeId",
-                        column: x => x.InputChallengeId,
+                        name: "FK_InputChallengeAnswers_InputChallenges_InputChallengeModelId",
+                        column: x => x.InputChallengeModelId,
                         principalTable: "InputChallenges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -160,7 +160,7 @@ namespace _3oChallengeApp.Migrations
                     Value = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    VoteChallengeId = table.Column<int>(nullable: true)
+                    VoteChallengeModelId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -172,8 +172,8 @@ namespace _3oChallengeApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VoteChallengeItems_VoteChallenges_VoteChallengeId",
-                        column: x => x.VoteChallengeId,
+                        name: "FK_VoteChallengeItems_VoteChallenges_VoteChallengeModelId",
+                        column: x => x.VoteChallengeModelId,
                         principalTable: "VoteChallenges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -189,7 +189,7 @@ namespace _3oChallengeApp.Migrations
                     Value = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    VoteChallengeItemId = table.Column<int>(nullable: true)
+                    VoteChallengeItemModelId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,27 +201,27 @@ namespace _3oChallengeApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_VoteChallengeAnswers_VoteChallengeItems_VoteChallengeItemId",
-                        column: x => x.VoteChallengeItemId,
+                        name: "FK_VoteChallengeAnswers_VoteChallengeItems_VoteChallengeItemMo~",
+                        column: x => x.VoteChallengeItemModelId,
                         principalTable: "VoteChallengeItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Challenges_UserId",
+                name: "IX_Challenges_UserModelId",
                 table: "Challenges",
+                column: "UserModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChallengeUserModel_UserId",
+                table: "ChallengeUserModel",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChallengeUser_UserId",
-                table: "ChallengeUser",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InputChallengeAnswers_InputChallengeId",
+                name: "IX_InputChallengeAnswers_InputChallengeModelId",
                 table: "InputChallengeAnswers",
-                column: "InputChallengeId");
+                column: "InputChallengeModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InputChallengeAnswers_UserId",
@@ -239,9 +239,9 @@ namespace _3oChallengeApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VoteChallengeAnswers_VoteChallengeItemId",
+                name: "IX_VoteChallengeAnswers_VoteChallengeItemModelId",
                 table: "VoteChallengeAnswers",
-                column: "VoteChallengeItemId");
+                column: "VoteChallengeItemModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VoteChallengeItems_UserId",
@@ -249,9 +249,9 @@ namespace _3oChallengeApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VoteChallengeItems_VoteChallengeId",
+                name: "IX_VoteChallengeItems_VoteChallengeModelId",
                 table: "VoteChallengeItems",
-                column: "VoteChallengeId");
+                column: "VoteChallengeModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VoteChallenges_ChallengeId",
@@ -262,7 +262,7 @@ namespace _3oChallengeApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChallengeUser");
+                name: "ChallengeUserModel");
 
             migrationBuilder.DropTable(
                 name: "InputChallengeAnswers");

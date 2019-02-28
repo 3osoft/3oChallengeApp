@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _3oChallengeApp.Models.Entities
+namespace _3oChallengeDataAccess
 {
-    public class User
+    public class UserModel
     {
-        public User()
+        public UserModel()
         {
-            Challenges = new HashSet<Challenge>();
+            Challenges = new HashSet<ChallengeModel>();
         }
         public int Id { get; set; }
         public string Email { get; set; }
@@ -20,8 +20,8 @@ namespace _3oChallengeApp.Models.Entities
         public bool IsActive { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<ChallengeUser> ChallengeUsers { get; set; }
-        public ICollection<Challenge> Challenges { get; set; }
+        public List<ChallengeUserModel> ChallengeUsers { get; set; }
+        public ICollection<ChallengeModel> Challenges { get; set; }
 
         
     }

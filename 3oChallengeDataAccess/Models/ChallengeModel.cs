@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _3oChallengeApp.Models.Entities
+namespace _3oChallengeDataAccess
 {
-    public class Challenge
+    public class ChallengeModel
     {
-        public Challenge()
+        public ChallengeModel()
         {
-            Users = new HashSet<User>();
+            Users = new HashSet<UserModel>();
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -21,8 +21,8 @@ namespace _3oChallengeApp.Models.Entities
         public bool IsEnabled { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<ChallengeUser> ChallengeUsers { get; set; }
+        public List<ChallengeUserModel> ChallengeUsers { get; set; }
         [NotMapped]
-        public ICollection<User> Users { get; set; }
+        public ICollection<UserModel> Users { get; set; }
     }
 }
