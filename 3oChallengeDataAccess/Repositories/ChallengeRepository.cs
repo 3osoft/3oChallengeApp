@@ -13,7 +13,10 @@ namespace _3oChallengeDataAccess
 
         public IEnumerable<Challenge> GetAllChallenges()
         {
-            return this.GetAll().Select(c => new Challenge(c.Id)).ToList();
+            return this.GetAll().Select(challenge => 
+                DomainObjectFactory<ChallengeModel, Challenge>.Create(
+                    challenge, () => new Challenge(challenge.Id)))
+                .ToList();
         }
     }
 }

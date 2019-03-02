@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace _3oChallengeDataAccess
         public bool IsActive { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<ChallengeUserModel> ChallengeUsers { get; set; }
+        public ICollection<ChallengeUserModel> ChallengeUsers { get; set; }
         public ICollection<ChallengeModel> Challenges { get; set; }
 
         

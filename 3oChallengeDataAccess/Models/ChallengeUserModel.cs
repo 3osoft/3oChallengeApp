@@ -1,5 +1,8 @@
-﻿namespace _3oChallengeDataAccess
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace _3oChallengeDataAccess
 {
+    [Table("ChallengeUser")]
     public class ChallengeUserModel
     {
         public int ChallengeId { get; set; }

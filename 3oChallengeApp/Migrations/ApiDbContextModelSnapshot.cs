@@ -26,6 +26,8 @@ namespace _3oChallengeApp.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt");
 
+                    b.Property<int>("CreatorId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsEnabled");
@@ -33,8 +35,6 @@ namespace _3oChallengeApp.Migrations
                     b.Property<string>("Title");
 
                     b.Property<DateTimeOffset>("UpdatedAt");
-
-                    b.Property<int?>("UserModelId");
 
                     b.Property<DateTimeOffset>("ValidFrom");
 
@@ -44,9 +44,9 @@ namespace _3oChallengeApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("CreatorId");
 
-                    b.ToTable("Challenges");
+                    b.ToTable("Challenge");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.ChallengeUserModel", b =>
@@ -59,7 +59,7 @@ namespace _3oChallengeApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ChallengeUserModel");
+                    b.ToTable("ChallengeUser");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.InputChallengeAnswerModel", b =>
@@ -69,21 +69,21 @@ namespace _3oChallengeApp.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt");
 
-                    b.Property<int?>("InputChallengeModelId");
+                    b.Property<int>("InputChallengeId");
 
                     b.Property<DateTimeOffset>("UpdatedAt");
 
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InputChallengeModelId");
+                    b.HasIndex("InputChallengeId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("InputChallengeAnswers");
+                    b.ToTable("InputChallengeAnswer");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.InputChallengeModel", b =>
@@ -91,7 +91,7 @@ namespace _3oChallengeApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ChallengeId");
+                    b.Property<int>("ChallengeId");
 
                     b.Property<DateTimeOffset>("CreatedAt");
 
@@ -101,7 +101,7 @@ namespace _3oChallengeApp.Migrations
 
                     b.HasIndex("ChallengeId");
 
-                    b.ToTable("InputChallenges");
+                    b.ToTable("InputChallenge");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.UserModel", b =>
@@ -127,7 +127,7 @@ namespace _3oChallengeApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.VoteChallengeAnswerModel", b =>
@@ -139,19 +139,19 @@ namespace _3oChallengeApp.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedAt");
 
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("Value");
 
-                    b.Property<int?>("VoteChallengeItemModelId");
+                    b.Property<int>("VoteChallengeItemId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VoteChallengeItemModelId");
+                    b.HasIndex("VoteChallengeItemId");
 
-                    b.ToTable("VoteChallengeAnswers");
+                    b.ToTable("VoteChallengeAnswer");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.VoteChallengeItemModel", b =>
@@ -163,19 +163,19 @@ namespace _3oChallengeApp.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedAt");
 
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("Value");
 
-                    b.Property<int?>("VoteChallengeModelId");
+                    b.Property<int>("VoteChallengeId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VoteChallengeModelId");
+                    b.HasIndex("VoteChallengeId");
 
-                    b.ToTable("VoteChallengeItems");
+                    b.ToTable("VoteChallengeItem");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.VoteChallengeModel", b =>
@@ -183,7 +183,7 @@ namespace _3oChallengeApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ChallengeId");
+                    b.Property<int>("ChallengeId");
 
                     b.Property<DateTimeOffset>("CreatedAt");
 
@@ -193,14 +193,15 @@ namespace _3oChallengeApp.Migrations
 
                     b.HasIndex("ChallengeId");
 
-                    b.ToTable("VoteChallenges");
+                    b.ToTable("VoteChallenge");
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.ChallengeModel", b =>
                 {
-                    b.HasOne("_3oChallengeDataAccess.UserModel")
+                    b.HasOne("_3oChallengeDataAccess.UserModel", "Creator")
                         .WithMany("Challenges")
-                        .HasForeignKey("UserModelId");
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.ChallengeUserModel", b =>
@@ -218,49 +219,57 @@ namespace _3oChallengeApp.Migrations
 
             modelBuilder.Entity("_3oChallengeDataAccess.InputChallengeAnswerModel", b =>
                 {
-                    b.HasOne("_3oChallengeDataAccess.InputChallengeModel")
+                    b.HasOne("_3oChallengeDataAccess.InputChallengeModel", "InputChallenge")
                         .WithMany("Answers")
-                        .HasForeignKey("InputChallengeModelId");
+                        .HasForeignKey("InputChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("_3oChallengeDataAccess.UserModel", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.InputChallengeModel", b =>
                 {
                     b.HasOne("_3oChallengeDataAccess.ChallengeModel", "Challenge")
                         .WithMany()
-                        .HasForeignKey("ChallengeId");
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.VoteChallengeAnswerModel", b =>
                 {
                     b.HasOne("_3oChallengeDataAccess.UserModel", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("_3oChallengeDataAccess.VoteChallengeItemModel")
+                    b.HasOne("_3oChallengeDataAccess.VoteChallengeItemModel", "VoteChallengeItem")
                         .WithMany("Answers")
-                        .HasForeignKey("VoteChallengeItemModelId");
+                        .HasForeignKey("VoteChallengeItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.VoteChallengeItemModel", b =>
                 {
                     b.HasOne("_3oChallengeDataAccess.UserModel", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("_3oChallengeDataAccess.VoteChallengeModel")
+                    b.HasOne("_3oChallengeDataAccess.VoteChallengeModel", "VoteChallenge")
                         .WithMany("Items")
-                        .HasForeignKey("VoteChallengeModelId");
+                        .HasForeignKey("VoteChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("_3oChallengeDataAccess.VoteChallengeModel", b =>
                 {
                     b.HasOne("_3oChallengeDataAccess.ChallengeModel", "Challenge")
                         .WithMany()
-                        .HasForeignKey("ChallengeId");
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

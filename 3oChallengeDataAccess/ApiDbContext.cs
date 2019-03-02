@@ -5,13 +5,13 @@ namespace _3oChallengeDataAccess
     public class ApiDbContext : DbContext
     {
 
-        public DbSet<ChallengeModel> Challenges { get; set; }
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<InputChallengeModel> InputChallenges { get; set; }
-        public DbSet<InputChallengeAnswerModel> InputChallengeAnswers { get; set; }
-        public DbSet<VoteChallengeModel> VoteChallenges { get; set; }
-        public DbSet<VoteChallengeItemModel> VoteChallengeItems { get; set; }
-        public DbSet<VoteChallengeAnswerModel> VoteChallengeAnswers { get; set; }
+        public DbSet<ChallengeModel> Challenge { get; set; }
+        public DbSet<UserModel> User { get; set; }
+        public DbSet<InputChallengeModel> InputChallenge { get; set; }
+        public DbSet<InputChallengeAnswerModel> InputChallengeAnswer { get; set; }
+        public DbSet<VoteChallengeModel> VoteChallenge { get; set; }
+        public DbSet<VoteChallengeItemModel> VoteChallengeItem { get; set; }
+        public DbSet<VoteChallengeAnswerModel> VoteChallengeAnswer { get; set; }
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options)
         {

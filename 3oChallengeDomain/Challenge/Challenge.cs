@@ -6,7 +6,9 @@ namespace _3oChallengeDomain
 {
     public class Challenge
     {
-        private int Id { get; set; }
+        public int Id { get; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public Challenge(int id)
         {
             Id = id;

@@ -9,7 +9,7 @@ namespace _3oChallengeApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -25,11 +25,11 @@ namespace _3oChallengeApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Challenges",
+                name: "Challenge",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -40,23 +40,23 @@ namespace _3oChallengeApp.Migrations
                     ValidTill = table.Column<DateTimeOffset>(nullable: false),
                     WinnerCondition = table.Column<string>(nullable: true),
                     IsEnabled = table.Column<bool>(nullable: false),
+                    CreatorId = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    UserModelId = table.Column<int>(nullable: true)
+                    UpdatedAt = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Challenges", x => x.Id);
+                    table.PrimaryKey("PK_Challenge", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Challenges_Users_UserModelId",
-                        column: x => x.UserModelId,
-                        principalTable: "Users",
+                        name: "FK_Challenge_User_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChallengeUserModel",
+                name: "ChallengeUser",
                 columns: table => new
                 {
                     ChallengeId = table.Column<int>(nullable: false),
@@ -64,226 +64,226 @@ namespace _3oChallengeApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChallengeUserModel", x => new { x.ChallengeId, x.UserId });
+                    table.PrimaryKey("PK_ChallengeUser", x => new { x.ChallengeId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_ChallengeUserModel_Challenges_ChallengeId",
+                        name: "FK_ChallengeUser_Challenge_ChallengeId",
                         column: x => x.ChallengeId,
-                        principalTable: "Challenges",
+                        principalTable: "Challenge",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChallengeUserModel_Users_UserId",
+                        name: "FK_ChallengeUser_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "InputChallenges",
+                name: "InputChallenge",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ChallengeId = table.Column<int>(nullable: true),
+                    ChallengeId = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InputChallenges", x => x.Id);
+                    table.PrimaryKey("PK_InputChallenge", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InputChallenges_Challenges_ChallengeId",
+                        name: "FK_InputChallenge_Challenge_ChallengeId",
                         column: x => x.ChallengeId,
-                        principalTable: "Challenges",
+                        principalTable: "Challenge",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "VoteChallenges",
+                name: "VoteChallenge",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    ChallengeId = table.Column<int>(nullable: true),
+                    ChallengeId = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoteChallenges", x => x.Id);
+                    table.PrimaryKey("PK_VoteChallenge", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VoteChallenges_Challenges_ChallengeId",
+                        name: "FK_VoteChallenge_Challenge_ChallengeId",
                         column: x => x.ChallengeId,
-                        principalTable: "Challenges",
+                        principalTable: "Challenge",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "InputChallengeAnswers",
+                name: "InputChallengeAnswer",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UserId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    InputChallengeModelId = table.Column<int>(nullable: true)
+                    InputChallengeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InputChallengeAnswers", x => x.Id);
+                    table.PrimaryKey("PK_InputChallengeAnswer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InputChallengeAnswers_InputChallenges_InputChallengeModelId",
-                        column: x => x.InputChallengeModelId,
-                        principalTable: "InputChallenges",
+                        name: "FK_InputChallengeAnswer_InputChallenge_InputChallengeId",
+                        column: x => x.InputChallengeId,
+                        principalTable: "InputChallenge",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InputChallengeAnswers_Users_UserId",
+                        name: "FK_InputChallengeAnswer_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "VoteChallengeItems",
+                name: "VoteChallengeItem",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UserId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    VoteChallengeModelId = table.Column<int>(nullable: true)
+                    VoteChallengeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoteChallengeItems", x => x.Id);
+                    table.PrimaryKey("PK_VoteChallengeItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VoteChallengeItems_Users_UserId",
+                        name: "FK_VoteChallengeItem_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VoteChallengeItems_VoteChallenges_VoteChallengeModelId",
-                        column: x => x.VoteChallengeModelId,
-                        principalTable: "VoteChallenges",
+                        name: "FK_VoteChallengeItem_VoteChallenge_VoteChallengeId",
+                        column: x => x.VoteChallengeId,
+                        principalTable: "VoteChallenge",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "VoteChallengeAnswers",
+                name: "VoteChallengeAnswer",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UserId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(nullable: false),
-                    VoteChallengeItemModelId = table.Column<int>(nullable: true)
+                    VoteChallengeItemId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoteChallengeAnswers", x => x.Id);
+                    table.PrimaryKey("PK_VoteChallengeAnswer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VoteChallengeAnswers_Users_UserId",
+                        name: "FK_VoteChallengeAnswer_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VoteChallengeAnswers_VoteChallengeItems_VoteChallengeItemMo~",
-                        column: x => x.VoteChallengeItemModelId,
-                        principalTable: "VoteChallengeItems",
+                        name: "FK_VoteChallengeAnswer_VoteChallengeItem_VoteChallengeItemId",
+                        column: x => x.VoteChallengeItemId,
+                        principalTable: "VoteChallengeItem",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Challenges_UserModelId",
-                table: "Challenges",
-                column: "UserModelId");
+                name: "IX_Challenge_CreatorId",
+                table: "Challenge",
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChallengeUserModel_UserId",
-                table: "ChallengeUserModel",
+                name: "IX_ChallengeUser_UserId",
+                table: "ChallengeUser",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InputChallengeAnswers_InputChallengeModelId",
-                table: "InputChallengeAnswers",
-                column: "InputChallengeModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InputChallengeAnswers_UserId",
-                table: "InputChallengeAnswers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InputChallenges_ChallengeId",
-                table: "InputChallenges",
+                name: "IX_InputChallenge_ChallengeId",
+                table: "InputChallenge",
                 column: "ChallengeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VoteChallengeAnswers_UserId",
-                table: "VoteChallengeAnswers",
+                name: "IX_InputChallengeAnswer_InputChallengeId",
+                table: "InputChallengeAnswer",
+                column: "InputChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InputChallengeAnswer_UserId",
+                table: "InputChallengeAnswer",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VoteChallengeAnswers_VoteChallengeItemModelId",
-                table: "VoteChallengeAnswers",
-                column: "VoteChallengeItemModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VoteChallengeItems_UserId",
-                table: "VoteChallengeItems",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VoteChallengeItems_VoteChallengeModelId",
-                table: "VoteChallengeItems",
-                column: "VoteChallengeModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VoteChallenges_ChallengeId",
-                table: "VoteChallenges",
+                name: "IX_VoteChallenge_ChallengeId",
+                table: "VoteChallenge",
                 column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoteChallengeAnswer_UserId",
+                table: "VoteChallengeAnswer",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoteChallengeAnswer_VoteChallengeItemId",
+                table: "VoteChallengeAnswer",
+                column: "VoteChallengeItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoteChallengeItem_UserId",
+                table: "VoteChallengeItem",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoteChallengeItem_VoteChallengeId",
+                table: "VoteChallengeItem",
+                column: "VoteChallengeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChallengeUserModel");
+                name: "ChallengeUser");
 
             migrationBuilder.DropTable(
-                name: "InputChallengeAnswers");
+                name: "InputChallengeAnswer");
 
             migrationBuilder.DropTable(
-                name: "VoteChallengeAnswers");
+                name: "VoteChallengeAnswer");
 
             migrationBuilder.DropTable(
-                name: "InputChallenges");
+                name: "InputChallenge");
 
             migrationBuilder.DropTable(
-                name: "VoteChallengeItems");
+                name: "VoteChallengeItem");
 
             migrationBuilder.DropTable(
-                name: "VoteChallenges");
+                name: "VoteChallenge");
 
             migrationBuilder.DropTable(
-                name: "Challenges");
+                name: "Challenge");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
         }
     }
 }

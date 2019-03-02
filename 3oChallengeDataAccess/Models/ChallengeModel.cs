@@ -19,9 +19,11 @@ namespace _3oChallengeDataAccess
         public DateTimeOffset ValidTill { get; set; }
         public string WinnerCondition { get; set; }
         public bool IsEnabled { get; set; }
+        public int CreatorId { get; set; }
+        public UserModel Creator { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<ChallengeUserModel> ChallengeUsers { get; set; }
+        public ICollection<ChallengeUserModel> ChallengeUsers { get; set; }
         [NotMapped]
         public ICollection<UserModel> Users { get; set; }
     }
