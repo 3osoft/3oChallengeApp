@@ -6,26 +6,25 @@ networks:
 
 services:
   3ochallengeapp:
-    image: ${DOCKER_REGISTRY-}3ochallengeapp
+    # image: ${DOCKER_REGISTRY-}3ochallengeapp
     depends_on:
-      - "postgres_image"
+      - "postgres"
     build:
       context: .
       dockerfile: ./3oChallengeApp/Dockerfile
     ports:
       - "8000:80"     
     environment:
-      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=3ochallenge;username=admin;password=admin"
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=3ochallenge;username=admin;password=admin"
     networks:
       - 3ochallenge-dev  
   
-  postgres_image:
+  postgres:
     image: postgres:latest
     ports:
       - "5432:5432"
-    restart: always
     volumes:
-      - db_volume:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "admin"
@@ -33,4 +32,4 @@ services:
     networks:
       - 3ochallenge-dev
 volumes:
-   db_volume:
+   db:

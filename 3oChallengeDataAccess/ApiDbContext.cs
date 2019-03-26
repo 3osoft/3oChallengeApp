@@ -6,7 +6,6 @@ namespace _3oChallengeDataAccess
     {
 
         public DbSet<ChallengeModel> Challenge { get; set; }
-        public DbSet<UserModel> User { get; set; }
         public DbSet<InputChallengeModel> InputChallenge { get; set; }
         public DbSet<InputChallengeAnswerModel> InputChallengeAnswer { get; set; }
         public DbSet<VoteChallengeModel> VoteChallenge { get; set; }
@@ -26,11 +25,6 @@ namespace _3oChallengeDataAccess
                 .HasOne(chu => chu.Challenge)
                 .WithMany(challenge => challenge.ChallengeUsers)
                 .HasForeignKey(chu => chu.ChallengeId);
-
-            modelBuilder.Entity<ChallengeUserModel>()
-                .HasOne(chu => chu.User)
-                .WithMany(user => user.ChallengeUsers)
-                .HasForeignKey(chu => chu.UserId);
         }
 
     }

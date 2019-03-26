@@ -8,5 +8,7 @@ namespace _3oChallengeDomain
     public interface IChallengeRepository
     {
         IEnumerable<Challenge> GetAllChallenges();
+
+        Challenge Create(Challenge challenge);
     }
 }

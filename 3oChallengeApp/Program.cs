@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace _3oChallenge
+namespace _3oChallengeApp
 {
     public class Program
     {

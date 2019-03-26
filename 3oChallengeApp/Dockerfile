@@ -5,10 +5,14 @@ EXPOSE 443
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
+
+# copy csproj and restore as distinct layers
 COPY ["3oChallengeApp/3oChallengeApp.csproj", "3oChallengeApp/"]
 COPY ["3oChallengeDomain/3oChallengeDomain.csproj", "3oChallengeDomain/"]
 COPY ["3oChallengeDataAccess/3oChallengeDataAccess.csproj", "3oChallengeDataAccess/"]
 RUN dotnet restore "3oChallengeApp/3oChallengeApp.csproj"
+
+# copy and publish app and libraries
 COPY . .
 WORKDIR "/src/3oChallengeApp"
 RUN dotnet build "3oChallengeApp.csproj" -c Release -o /app

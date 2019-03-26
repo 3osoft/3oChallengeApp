@@ -5,18 +5,35 @@ using System.Linq;
 
 namespace _3oChallengeDataAccess
 {
-    public class ChallengeRepository : Repository<ChallengeModel>, IChallengeRepository
+    public class ChallengeRepository : Repository<InputChallengeModel>, IChallengeRepository
     {
         public ChallengeRepository(ApiDbContext dbContext) : base(dbContext)
         {
         }
 
+        public Challenge Create(Challenge challenge)
+        {
+            ChallengeModel model = new ChallengeModel();
+            model.Title = challenge.Title;
+            model.Description = challenge.Description;
+            model.IsEnabled = challenge.IsEnabled;
+            model.CreatorId = challenge.CreatorId;
+            model.ValidFrom = challenge.ValidFrom;
+            model.ValidTill = challenge.ValidTill;
+            model.CreatedAt = challenge.CreatedAt;
+            model.UpdatedAt = challenge.UpdatedAt;
+
+            InputChallengeModel inputChallenge = new InputChallengeModel();
+            inputChallenge.Challenge = model;
+            this.Insert(inputChallenge);
+
+            this.Save();
+            return null;
+        }
+
         public IEnumerable<Challenge> GetAllChallenges()
         {
-            return this.GetAll().Select(challenge => 
-                DomainObjectFactory<ChallengeModel, Challenge>.Create(
-                    challenge, () => new Challenge(challenge.Id)))
-                .ToList();
+            return null;
         }
     }
 }
