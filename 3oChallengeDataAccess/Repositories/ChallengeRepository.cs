@@ -33,7 +33,7 @@ namespace _3oChallengeDataAccess
 
         public IEnumerable<Challenge> GetAllChallenges()
         {
-            return null;
+            yield return new Challenge(1);
         }
     }
 }
