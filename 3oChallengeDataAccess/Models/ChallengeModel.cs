@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _3oChallengeApp.Models.Entities
+namespace _3oChallengeDataAccess
 {
-    public class Challenge
+    public class ChallengeModel
     {
-        public Challenge()
-        {
-            Users = new HashSet<User>();
-        }
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,10 +16,10 @@ namespace _3oChallengeApp.Models.Entities
         public DateTimeOffset ValidTill { get; set; }
         public string WinnerCondition { get; set; }
         public bool IsEnabled { get; set; }
+        [Required]
+        public string CreatorId { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
-        public List<ChallengeUser> ChallengeUsers { get; set; }
-        [NotMapped]
-        public ICollection<User> Users { get; set; }
+        public ICollection<ChallengeUserModel> ChallengeUsers { get; set; }
     }
 }
